@@ -45,6 +45,8 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     @Resource
     private UserCollectMapper userCollectMapper;
     @Resource
+    private NoticeMapper noticeMapper;
+    @Resource
     private ITagService tagService;
     @Resource
     private IUserService userService;
@@ -141,7 +143,20 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 throw new ServiceException("服务器忙");
             }
             log.debug("新增了讲师和问题的关系:{}",userQuestion);
+
+            Notice notice = new Notice()
+                    .setType(1)
+                    .setQuestionId(question.getId())
+                    .setCreatetime(question.getCreatetime())
+                    .setUserId(question.getUserId())
+                    .setReplyUserId(teacher.getId())
+                    .setReadStatus(0);
+            int noticeNum = noticeMapper.insert(notice);
+            if(noticeNum!=1){
+                throw new ServiceException("服务器忙");
+            }
         }
+
 
     }
 

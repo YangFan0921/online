@@ -64,8 +64,8 @@
     </div>
     <a type="button" class="btn btn-outline-primary btn-sm mx-2" href="../question/create.html">我要提问</a>
     <div id="noticeCount">
-      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal">
-        <span class="badge badge-warning badge-pill">2</span>
+      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal" v-show="type==1">
+        <span class="badge badge-warning badge-pill" v-text="counts">2</span>
       </button>
     </div>
     <div class="dropdown py-1 mr-3 " id="avatarApp">
@@ -468,4 +468,5 @@
 </body>
 <script src="../js/utils.js"></script>
 <script src="../js/myInfo.js"></script>
+<script src="../js/header.js"></script>
 </html>

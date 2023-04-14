@@ -2,6 +2,9 @@ package com.graduation.service;
 
 import com.graduation.model.Notice;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.graduation.model.Question;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface INoticeService extends IService<Notice> {
 
+    Integer noticeCounts(String username);
+
+    List<Question> tabContent(String username);
 }

@@ -43,8 +43,8 @@
     </div>
     <a type="button" class="btn btn-outline-primary btn-sm mx-2" href="question/create.html">我要提问</a>
     <div id="noticeCount">
-      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal">
-        <span class="badge badge-warning badge-pill">2</span>
+      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal" v-show="type==1">
+        <span class="badge badge-warning badge-pill" v-text="counts">2</span>
       </button>
     </div>
     <div class="dropdown py-1 mr-3 " id="avatarApp">
@@ -177,8 +177,8 @@
       <div class="row">
         <div class="container-fluid">
           <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-comments-o" aria-hidden="true"></i> 我的问答</h4>
-          <div id="questionsApp">
-          <div class="row" style="display: none">
+          <div id="questionsApp" >
+          <div class="row" style="display: none" v-show="questions.length==0">
             <div class="alert alert-warning w-100" role="alert">
               抱歉您还没有提问内容， <a href="question/create.html" class="alert-link">您可以点击此处提问</a>，或者点击标签查看其它问答
             </div>
@@ -449,5 +449,5 @@
 <script src="js/index.js"></script>
 <script src="../js/user_info_temp.js"></script>
 <script src="js/user_info.js"></script>
-<script src="js/avatarApp.js"></script>
+<script src="js/header.js"></script>
 </html>

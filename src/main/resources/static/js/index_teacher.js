@@ -15,7 +15,7 @@ let questionsApp = new Vue({
             // if(index!=-1){
             //     pageNum=location.href.substring(index+1);
             // }
-            console.log("pageNum: ",pageNum)
+            // console.log("pageNum: ",pageNum)
             if(! pageNum){
                 pageNum = 1;
             }

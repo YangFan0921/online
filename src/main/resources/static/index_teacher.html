@@ -53,8 +53,8 @@
     </div>
     <a type="button" class="btn btn-outline-primary btn-sm mx-2" href="question/create.html">我要提问</a>
     <div id="noticeCount">
-      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal">
-        <span class="badge badge-warning badge-pill">2</span>
+      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal" v-show="type==1">
+        <span class="badge badge-warning badge-pill" v-text="counts">2</span>
       </button>
     </div>
     <div class="dropdown   py-1 mr-3 " id="avatarApp">
@@ -96,16 +96,16 @@
                 <h6 class="text-dark my-2" style="display: none">暂无新消息！</h6>
                 <a href="notice/all.html" style="display: none" class="text-info">查看历史消息</a>
                 <!--只显示10条消息-->
-                <div class="list-group-item list-group-item-action">
-                  <span>张三</span>
+                <div class="list-group-item list-group-item-action" v-for="tabContent in tabContents">
+                  <span v-text="tabContent.userNickName">张三</span>
                   <strong style="display: none">回答了你的问题</strong>
                   <strong style="display: none">评论了您的回答</strong>
                   <strong style="display: none">评论了您的提问</strong>
                   <strong>向您提问</strong>
-                  <a href="" class="text-info">Java中方法重载和重写的区别</a>
+                  <a href="" class="text-info" v-text="tabContent.title">Java中方法重载和重写的区别</a>
                 </div>
               </div>
-              <div class="col-12 mt-2 ">
+              <div class="col-12 mt-2 " v-show="tabContents.length > 10">
                 <a href="notice/all.html" class="text-info">查看全部消息</a>
               </div>
             </div>
@@ -180,7 +180,7 @@
 
       <div class="row">
         <div class="container-fluid">
-          <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 我的任务</h4>
+          <h4 class="border-bottom m-2 p-2 font-weight-light"><i class="fa fa-tasks" aria-hidden="true"></i> 问题列表</h4>
           <div id="questionsApp">
             <div class="row" style="display: none">
               <div class="alert alert-warning w-100" role="alert">
@@ -455,5 +455,6 @@
 <script src="js/user_info_temp.js"></script>
 <script src="js/user_info.js"></script>
 <script src="js/index_teacher.js"></script>
-<script src="/js/avatarApp.js"></script>
+<script src="/js/header.js"></script>
+
 </html>

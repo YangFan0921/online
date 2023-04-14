@@ -1,9 +1,17 @@
 package com.graduation.controller;
 
 
+import com.graduation.model.Question;
+import com.graduation.service.INoticeService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +24,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/notice")
 public class NoticeController {
+
+    @Resource
+    INoticeService noticeService;
+
+    @GetMapping("/counts")
+    public Integer counts(@AuthenticationPrincipal UserDetails user){
+       return noticeService.noticeCounts(user.getUsername());
+    }
+
+    @GetMapping("/tabContent")
+    public List<Question> tabContent(@AuthenticationPrincipal UserDetails user){
+        return  noticeService.tabContent(user.getUsername());
+    }
 
 }

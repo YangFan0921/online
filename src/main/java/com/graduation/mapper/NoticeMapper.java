@@ -2,6 +2,7 @@ package com.graduation.mapper;
 
 import com.graduation.model.Notice;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Insert;
 import org.springframework.stereotype.Repository;
 
 /**
