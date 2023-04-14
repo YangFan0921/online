@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<form id="form">
+    <input type="file" name="imageFile"
+        id="imageFile"><br/>
+    <button >上传文件</button>
+</form>
+<img src="" id="image">
+</body>
+<script>
+$("#form").submit(function(){
+    //获得用户选择的文件(默认是一个文件数组)
+    let files=document.getElementById("imageFile").files;
+    //判断用户是否选择了文件
+    if(files.length>0){
+        uploadImage(files);
+    }
+    //阻止表单提交
+    return false;
+})
+
+function uploadImage(files){
+    //获取所用选中文件的第一张(本项目只考虑一张)
+    let file=files[0];
+    //构建form对象
+    let form=new FormData();
+    form.append("imageFile",file);
+    axios({
+        url:"/upload/file",
+        method:"post",
+        data:form
+    }).then(function(r){
+        //如果成功上传,显示上传的图片在页面上
+        $("#image").attr("src",r.data);
+    })
+
+
+
+}
+
+
+</script>
+</html>
