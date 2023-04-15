@@ -6,7 +6,6 @@
   <meta name="renderer" content="webkit">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>我要提问</title>
-
   <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="../bower_components/summernote/dist/summernote-bs4.min.css">
@@ -42,15 +41,15 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!--<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link active" href="../index.html">首页</a>
         <a class="nav-item nav-link active" href="../personal/myQuestion.html">提问</a>
-        <a class="nav-item nav-link active" href="../personal/task.html">任务</a>
+        <a class="nav-item nav-link active" href="personal/task.html" v-show="user.type">任务</a>
         <a class="nav-item nav-link active" href="../personal/collect.html">收藏</a>
       </div>
-    </div>-->
-    <navbarNavAltMarkupApp  id="navbarNavAltMarkup" :user="user"></navbarNavAltMarkupApp>
+    </div>
+<!--    <navbarNavAltMarkupApp  id="navbarNavAltMarkup" :user="user"></navbarNavAltMarkupApp>-->
 
     <div class="form-inline my-2 my-lg-0" id="searchApp">
       <input class="form-control form-control-sm mr-sm-2 rounded-pill" v-model="keyword" type="search"
@@ -457,7 +456,7 @@
 </body>
 <script src="../js/utils.js"></script>
 <script src="../js/question_detail.js"></script>
-<script src="../js/navbarNavAltMarkup_temp.js"></script>
+<!--<script src="../js/navbarNavAltMarkup_temp.js"></script>-->
 <!--<script src="../js/noticeCount_temp.js"></script>-->
 <!--<script src="../js/avatarApp_temp.js"></script>-->
 <!--<script src="../js/myTabContent_temp.js"></script>-->

@@ -23,13 +23,14 @@
   <script src="../bower_components/select2/dist/js/select2.min.js"></script>
   <script src="../bower_components/select2/dist/js/i18n/zh-CN.js"></script>
   <script src="../bower_components/vue-select/dist/vue-select.js"></script>
+  <script src="../bower_components/axios/axios.js"></script>
+
 </head>
 <body>
 <header class="container-fluid mb-3 bg-light">
-
   <nav class="navbar navbar-expand-lg   navbar-light bg-light">
-    <a class="navbar-brand" href="../index.html"> <img alt="好享"
-                                                       src="../img/GShare_logo_230x80.png" height="33">
+    <a class="navbar-brand" href="../index.html">
+      <img alt="好享" src="../img/GShare_logo_230x80.png" height="33">
     </a>
     <button class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -38,15 +39,15 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="../index.html">首页</a>
-        <a class="nav-item nav-link active" href="../personal/myQuestion.html">提问</a>
-        <a class="nav-item nav-link active" href="../personal/task.html">任务</a>
-        <a class="nav-item nav-link active" href="../personal/collect.html">收藏</a>
-      </div>
-
-    </div>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="../index.html">首页</a>
+            <a class="nav-item nav-link active" href="../personal/myQuestion.html">提问</a>
+            <a class="nav-item nav-link active" href="personal/task.html" v-show="user.type">任务</a>
+            <a class="nav-item nav-link active" href="../personal/collect.html">收藏</a>
+          </div>
+        </div>
+<!--    <navbar-nav-alt-markup-app  id="navbarNavAltMarkup" :user="user"></navbar-nav-alt-markup-app>-->
 
     <div class="form-inline my-2 my-lg-0" id="searchApp">
       <input class="form-control form-control-sm mr-sm-2 rounded-pill" v-model="keyword" type="search"
@@ -56,15 +57,15 @@
     </div>
     <a type="button" class="btn btn-outline-primary btn-sm mx-2" href="../question/create.html">我要提问</a>
     <div id="noticeCount">
-      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal">
-        <span class="badge badge-warning badge-pill">2</span>
+      <button type="button" class="btn btn-default btn-xs fa fa-bell-o" data-toggle="modal" data-target="#noticeModal" v-show="type==1"  @click="clickTabContent">
+        <span class="badge badge-warning badge-pill" v-text="counts" v-show="counts > 0">2</span>
       </button>
     </div>
-    <div class="dropdown   py-1 mr-3 ">
+    <div class="dropdown   py-1 mr-3 " id="avatarApp">
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
         <img style="width: 30px;height: 30px;border-radius: 50%;"
-             src="../img/user.jpg">
+             :src="user.avatarUrl">
       </button>
       <div class="dropdown-menu dropdown-menu-sm-left text-sm border-0" aria-labelledby="dropdownMenu2">
         <a class="dropdown-item " href="../personal/userInfo.html">账号设置</a>
@@ -72,7 +73,7 @@
         <button data-toggle="modal" data-target="#invitecodeModal" class="dropdown-item btn-default">查看邀请码
         </button>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item " href="../login.html">注销登录</a>
+        <a class="dropdown-item " href="../login.html?logout" @click="logout">注销登录</a>
       </div>
     </div>
   </nav>
@@ -87,33 +88,32 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <div id="myTab" role="tablist" class="nav nav-tabs">
-              <a href="#commentNotice" class="nav-item nav-link active text-black" data-toggle="tab"
-                 aria-controls="commentNotice" aria-selected="true">
-                通知
-              </a>
-              <a href="#announcement" class="nav-item nav-link text-black" data-toggle="tab" aria-controls="announcement"
-                 aria-selected="true">
-                公告
-              </a>
+            <a href="#commentNotice" class="nav-item nav-link active text-black" data-toggle="tab"
+               aria-controls="commentNotice" aria-selected="true">
+              通知
+            </a>
+            <a href="#announcement" class="nav-item nav-link text-black" data-toggle="tab" aria-controls="announcement"
+               aria-selected="true">
+              公告
+            </a>
           </div>
           <div id="myTabContent" class="tab-content col-12">
-            <div class="tab-pane fade show active row" id="commentNotice" role="tabpanel"
-                 aria-labelledby="noAnswer-tab">
+            <div class="tab-pane fade show active row" id="commentNotice" role="tabpanel" aria-labelledby="noAnswer-tab">
               <div class="list-group list-group-flush">
-                <h6 class="text-dark my-2" style="display: none" >暂无新消息！</h6>
-                <a href="../notice/all.html" style="display: none" class="text-info" >查看历史消息</a>
+                <h6 class="text-dark my-2" style="display: none" v-show="tabContents.length==0">暂无新消息！</h6>
+                <a href="../notice/all.html" style="display: none" class="text-info" v-show="tabContents.length==0">查看历史消息</a>
                 <!--只显示10条消息-->
-                <div class="list-group-item list-group-item-action">
-                  <span>张三</span>
+                <div class="list-group-item list-group-item-action" v-for="tabContent in tabContents">
+                  <span v-text="tabContent.userNickName">张三</span>
                   <strong style="display: none">回答了你的问题</strong>
                   <strong style="display: none">评论了您的回答</strong>
                   <strong style="display: none">评论了您的提问</strong>
                   <strong>向您提问</strong>
-                  <a href="" class="text-info">Java中方法重载和重写的区别</a>
+                  <a href="" class="text-info" v-text="tabContent.title" v-bind:href="'/question/detail_teacher.html?'+tabContent.id">Java中方法重载和重写的区别</a>
                 </div>
               </div>
-              <div class="col-12 mt-2 ">
-                <a href="../notice/all.html" class="text-info">查看全部消息</a>
+              <div class="col-12 mt-2 " v-show="tabContents.length > 10">
+                <a href="notice/all.html" class="text-info">查看全部消息</a>
               </div>
             </div>
             <div class="tab-pane fade row" id="announcement" role="tabpanel" aria-labelledby="unSolve-tab">
@@ -196,118 +196,35 @@
       <div class="alert alert-warning" role="alert" style="display: none" v-show="isShow">
         抱歉您还没有提问内容， <a href="/question/create.html" class="alert-link">您可以点击此处提问</a>
       </div>
-      <div class="list-unstyled">
-          <div class="mt-4 bg-light media-body">
+      <div class="list-unstyled" >
+          <div class="mt-4 bg-light media-body" v-for="question in questions">
             <p>
-              <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
+              <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html"  v-text="question.title" v-bind:href="'/question/detail_teacher.html?'+question.id">
                 客户端和服务器端之间的通讯是基于什么
               </a>
             </p>
             <p>
-              <span class="font-weight-light p-2">3天前</span>
+              <span class="font-weight-light p-2" v-text="question.duration">3天前</span>
             </p>
           </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
-        <div class="mt-4 bg-light media-body">
-          <p>
-            <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" >
-              客户端和服务器端之间的通讯是基于什么
-            </a>
-          </p>
-          <p>
-            <span class="font-weight-light p-2">3天前</span>
-          </p>
-        </div>
+
       </div>
       <!--分页信息-->
       <div class="row mt-2">
         <div class="col-6 offset-3">
           <nav aria-label="Page navigation example">
             <div class="pagination">
-              <a class="page-item page-link" href="#">Previous</a>
-              <a class="page-item page-link" href="#">1</a>
-              <a class="page-item page-link" href="#">2</a>
-              <a class="page-item page-link" href="#">3</a>
-              <a class="page-item page-link" href="#">Next</a>
+              <a class="page-item page-link" href="#"
+                 v-on:click.prevent="loadMyQuestion(pageinfo.prePage)"
+                 :style="pageinfo.isFirstPage ? 'pointer-events: none;background:#DEDEDE;color:	#FCFCFC':''">上一页</a>
+              <a class="page-item page-link " href="#"
+                 v-for="n in pageinfo.navigatepageNums"
+                 v-on:click.prevent="loadMyQuestion(n)"
+                 v-bind:class="{'bg-secondary text-light':n==pageinfo.pageNum}"><span v-text="n">1</span></a>
+              <a class="page-item page-link" href="#"
+                 v-on:click.prevent="loadMyQuestion(pageinfo.nextPage)"
+                 :style="pageinfo.isLastPage ?
+                      'pointer-events: none;background:#DEDEDE;color:	#FCFCFC':''">下一页</a>
             </div>
           </nav>
         </div>
@@ -318,4 +235,11 @@
 </div>
 
 </body>
+<script src="../js/utils.js"></script>
+<!--<script src="../js/navbarNavAltMarkup_temp.js"></script>-->
+<!--<script src="../js/myTabContent_temp.js"></script>-->
+<!--<script src="../js/noticeCount_temp.js"></script>-->
+<!--<script src="../js/avatarApp_temp.js"></script>-->
+<script src="../js/header.js"></script>
+<script src="../js/myQuestion.js"></script>
 </html>

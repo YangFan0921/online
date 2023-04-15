@@ -96,4 +96,6 @@ public class QuestionController {
         return questionService.getHotQuestion(user.getUsername());
     }
 
+
+
 }

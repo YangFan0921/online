@@ -40,4 +40,6 @@ public interface IQuestionService extends IService<Question> {
 
     //根据用户的教室ID查询热点问题列表
     List<HotQuestionVo> getHotQuestion(String username);
+
+
 }

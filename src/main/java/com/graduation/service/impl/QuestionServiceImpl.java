@@ -70,6 +70,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             question.setTags(tags);
         }
         log.debug("当前用户问题数量: {}",questionsList.size());
+        System.out.println("当前问题："+questionsList);
         return new PageInfo<>(questionsList);
     }
 
