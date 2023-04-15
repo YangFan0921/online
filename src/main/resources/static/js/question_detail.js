@@ -88,7 +88,7 @@ let answersApp = new Vue({
             }
             qid=qid.substring(1);
             axios.get("/answers/question/"+qid).then(function (r) {
-                console.log(r.data)
+                // console.log(r.data)
                 answersApp.answers = r.data;
                 let answers = answersApp.answers;
                 for(let i=0;i<answers.length;i++){

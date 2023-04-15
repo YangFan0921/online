@@ -52,7 +52,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         List<Notice> noticeList =  noticeMapper.selectList(query);
         List<Question> questionList = new ArrayList<>();
         for (Notice notice : noticeList) {
-            System.out.println(notice);
+//            System.out.println(notice);
             Question question = questionMapper.selectById(notice.getQuestionId());
             questionList.add(question);
         }

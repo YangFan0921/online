@@ -19,7 +19,7 @@ Vue.component("userapp",{
                   <div><strong v-text="user.collections">10</strong></div>
                   <div>收藏</div>
                 </a>
-                <a class="list-inline-item mx-3 my-1 text-center" href="personal/task.html">
+                <a class="list-inline-item mx-3 my-1 text-center" href="personal/task.html" v-show="user.type">
                   <div><strong>10</strong></div>
                   <div>任务</div>
                 </a>

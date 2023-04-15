@@ -11,6 +11,7 @@ import com.graduation.service.IQuestionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.graduation.service.ITagService;
 import com.graduation.service.IUserService;
+import com.graduation.vo.HotQuestionVo;
 import com.graduation.vo.QuestionVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -193,14 +194,47 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public Question getQuestionById(Integer id) {
+    public Question getQuestionById(String username,Integer id) {
+        User user = userMapper.findUserByUsername(username);
         Question question = questionMapper.selectById(id);
+        QueryWrapper<Notice> query =  new QueryWrapper<>();
+        query.eq("reply_user_id",user.getId());
+        query.eq("question_id",id);
+        Notice notice = noticeMapper.selectOne(query);
+        if (notice != null){
+            noticeMapper.updateNoticeReadStatus(user.getId());
+        }
         //给问题的标签赋值
         List<Tag> tags = tagName2Tags(question.getTagNames());
         question.setTags(tags);
         return question;
     }
 
+    @Override
+    public List<HotQuestionVo> getHotQuestion(String username) {
+        User user = userMapper.findUserByUsername(username);
+        List<Question> questions = questionMapper.getHotQuestionList(user.getClassroomId());
+//        QueryWrapper<User> userQuery = new QueryWrapper<>();
+//        QueryWrapper<Question> questionQuery =  new QueryWrapper<>();
+//        userQuery.eq("classroom_id",user.getClassroomId());
+//        QueryWrapper<User> id = userQuery.select("id");
+//        List<User> users = userMapper.selectList(userQuery);
+//        questionQuery.in("user_id",id);
+//        questionQuery.orderByDesc("page_views").last("limit 10");
+//        List<Question> questions = questionMapper.selectList(questionQuery);
+        List<HotQuestionVo> hotQuestionVo = new ArrayList<>();
+        for (Question question :questions){
+            HotQuestionVo qv = new HotQuestionVo();
+            Integer countAnswer = questionMapper.countAnswer(question.getId());
+            hotQuestionVo.add(qv);
+            qv.setId(question.getId());
+            qv.setTitle(question.getTitle());
+            qv.setStatus(question.getStatus());
+            qv.setPageViews(question.getPageViews());
+            qv.setCountAnswer(countAnswer);
+        }
+        return hotQuestionVo;
+    }
 
 
     //根据tag_names的值获得一个对应的List<Tag>集合

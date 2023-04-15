@@ -41,5 +41,11 @@ public interface QuestionMapper extends BaseMapper<Question> {
     @Update("update question set status=#{status} where id=#{questionId}")
     Integer updateStatus(@Param("status")Integer status, @Param("questionId")Integer questionId);
 
+    @Select("select question.* from question where user_id in (select id from user where classroom_id=#{classroomId})  order by page_views desc limit 0,10")
+    List<Question> getHotQuestionList(Integer classroomId);
+
+    @Select("select count(1) from answer where quest_id=#{questId}")
+    Integer countAnswer(Integer questId);
+
 
 }

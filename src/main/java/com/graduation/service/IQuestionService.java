@@ -3,6 +3,7 @@ package com.graduation.service;
 import com.github.pagehelper.PageInfo;
 import com.graduation.model.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.graduation.vo.HotQuestionVo;
 import com.graduation.vo.QuestionVo;
 
 import java.util.List;
@@ -35,8 +36,8 @@ public interface IQuestionService extends IService<Question> {
             String username,Integer pageNum,Integer pageSize);
 
     // 根据问题id查询问题详情
-    Question getQuestionById(Integer id);
+    Question getQuestionById(String username,Integer id);
 
-
-
+    //根据用户的教室ID查询热点问题列表
+    List<HotQuestionVo> getHotQuestion(String username);
 }

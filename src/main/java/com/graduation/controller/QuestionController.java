@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.graduation.exception.ServiceException;
 import com.graduation.model.Question;
 import com.graduation.service.IQuestionService;
+import com.graduation.vo.HotQuestionVo;
 import com.graduation.vo.QuestionVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -82,12 +83,17 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public Question question(@PathVariable Integer id){
+    public Question question(@AuthenticationPrincipal UserDetails user,@PathVariable Integer id){
         if (id == null){
             throw new ServiceException("问题ID不能为空");
         }
-        Question question = questionService.getQuestionById(id);
+        Question question = questionService.getQuestionById(user.getUsername(), id);
         return question;
+    }
+
+    @GetMapping("/hotQuestions")
+    public List<HotQuestionVo> getTop10(@AuthenticationPrincipal UserDetails user){
+        return questionService.getHotQuestion(user.getUsername());
     }
 
 }
