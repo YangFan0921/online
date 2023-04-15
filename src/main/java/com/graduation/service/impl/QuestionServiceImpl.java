@@ -227,12 +227,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         for (Question question :questions){
             HotQuestionVo qv = new HotQuestionVo();
             Integer countAnswer = questionMapper.countAnswer(question.getId());
-            hotQuestionVo.add(qv);
             qv.setId(question.getId());
             qv.setTitle(question.getTitle());
             qv.setStatus(question.getStatus());
             qv.setPageViews(question.getPageViews());
             qv.setCountAnswer(countAnswer);
+            hotQuestionVo.add(qv);
         }
         return hotQuestionVo;
     }

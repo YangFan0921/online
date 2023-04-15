@@ -43,7 +43,7 @@
           <div class="navbar-nav">
             <a class="nav-item nav-link active" href="../index.html">首页</a>
             <a class="nav-item nav-link active" href="../personal/myQuestion.html">提问</a>
-            <a class="nav-item nav-link active" href="personal/task.html" v-show="user.type">任务</a>
+            <a class="nav-item nav-link active" href="../personal/task.html" v-show="user.type">任务</a>
             <a class="nav-item nav-link active" href="../personal/collect.html">收藏</a>
           </div>
         </div>
@@ -112,8 +112,8 @@
                   <a href="" class="text-info" v-text="tabContent.title" v-bind:href="'/question/detail_teacher.html?'+tabContent.id">Java中方法重载和重写的区别</a>
                 </div>
               </div>
-              <div class="col-12 mt-2 " v-show="tabContents.length > 10">
-                <a href="notice/all.html" class="text-info">查看全部消息</a>
+              <div class="col-12 mt-2 " v-show="tabContents.length != 0">
+                <a href="../notice/all.html" class="text-info">查看全部消息</a>
               </div>
             </div>
             <div class="tab-pane fade row" id="announcement" role="tabpanel" aria-labelledby="unSolve-tab">
@@ -199,9 +199,13 @@
       <div class="list-unstyled" >
           <div class="mt-4 bg-light media-body" v-for="question in questions">
             <p>
-              <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html"  v-text="question.title" v-bind:href="'/question/detail_teacher.html?'+question.id">
+              <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" v-if="user.type"  v-text="question.title" v-bind:href="'/question/detail_teacher.html?'+question.id">
                 客户端和服务器端之间的通讯是基于什么
               </a>
+              <a class="mt-0 mb-1 h5 text-dark" href="../question/detail.html" v-else v-text="question.title" v-bind:href="'/question/detail_student.html?'+question.id">
+                客户端和服务器端之间的通讯是基于什么
+              </a>
+
             </p>
             <p>
               <span class="font-weight-light p-2" v-text="question.duration">3天前</span>

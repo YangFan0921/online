@@ -73,7 +73,7 @@ public class QuestionController {
     @GetMapping("/teacher")
     //指定登录用户必须包含ROLE_TEACHER这个身份
     @PreAuthorize("hasRole('ROLE_TEACHER')")
-    public PageInfo teacher(@AuthenticationPrincipal UserDetails user,Integer pageNum){
+    public PageInfo<Question> teacher(@AuthenticationPrincipal UserDetails user,Integer pageNum){
         if (pageNum == null){
             pageNum =1;
         }

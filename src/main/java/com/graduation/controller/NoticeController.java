@@ -1,8 +1,10 @@
 package com.graduation.controller;
 
 
+import com.github.pagehelper.PageInfo;
 import com.graduation.model.Question;
 import com.graduation.service.INoticeService;
+import com.graduation.vo.NoticeQuestionVo;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,16 @@ public class NoticeController {
     @GetMapping("/tabContent")
     public List<Question> tabContent(@AuthenticationPrincipal UserDetails user){
         return  noticeService.tabContent(user.getUsername());
+    }
+
+    @GetMapping("")
+    public PageInfo<NoticeQuestionVo> allNotice(@AuthenticationPrincipal UserDetails user,Integer pageNum) {
+        if (pageNum==null){
+            pageNum=1;
+        }
+        Integer pageSize=8;
+        PageInfo<NoticeQuestionVo> pageInfo = noticeService.getAllNotices(user.getUsername(), pageNum, pageSize);
+        return pageInfo;
     }
 
 }

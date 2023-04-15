@@ -1,6 +1,7 @@
 package com.graduation.service;
 
 import com.github.pagehelper.PageInfo;
+import com.graduation.model.Notice;
 import com.graduation.model.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.graduation.vo.HotQuestionVo;
@@ -40,6 +41,8 @@ public interface IQuestionService extends IService<Question> {
 
     //根据用户的教室ID查询热点问题列表
     List<HotQuestionVo> getHotQuestion(String username);
+
+
 
 
 }

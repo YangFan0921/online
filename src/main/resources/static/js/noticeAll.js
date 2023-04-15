@@ -1,43 +1,43 @@
-let myQuestionApp = new Vue({
-    el:"#myQuestionApp",
+let myTabContentsApp = new Vue({
+    el:"#myTabContents",
     data:{
-        questions:[],
-        pageinfo:{},
         user:{},
-        isShow:false,
+        tabContents:[],
+        pageinfo:{}
     },
     methods:{
-        loadMyQuestion(pageNum){
-            if(!pageNum){
+        loadMyTabContents(pageNum) {
+            if (!pageNum) {
                 pageNum = 1;
             }
             axios({
-                url: '/questions/my',
+                url: '/notice',
                 method: "GET",
-                params:{
-                    pageNum:pageNum
+                params: {
+                    pageNum: pageNum
                 }
-            }).then(function(response){
+            }).then(function (response) {
                 // console.log("成功加载数据");
                 // console.log(response);
-                if(response.status == OK){
-                    myQuestionApp.questions = response.data.list;
-                    myQuestionApp.pageinfo = response.data;
+                if (response.status == OK) {
+                    // console.log(response.data)
+                    myTabContentsApp.tabContents = response.data.list;
+                    myTabContentsApp.pageinfo = response.data;
                     //为question对象添加持续时间属性
-                    myQuestionApp.updateDuration();
-                    window.onhashchange=myQuestionApp.loadMyQuestion;
+                    myTabContentsApp.updateDuration();
+                    window.onhashchange = myTabContentsApp.loadMyTabContents;
                 }
             }).catch(function (r) {
                 console.log(r.data)
             })
         },
         getMyInfo(){
-          axios.get("/users/me").then(function (r) {
-              myQuestionApp.user = r.data
-          })
+            axios.get("/users/me").then(function (r) {
+                myTabContentsApp.user = r.data
+            })
         },
         updateDuration:function () {
-            let questions = this.questions;
+            let questions = this.tabContents;
             for(let i=0; i<questions.length; i++){
                 //创建问题时候的时间毫秒数
                 let createtime = new Date(questions[i].createtime).getTime();
@@ -63,7 +63,7 @@ let myQuestionApp = new Vue({
         }
     },
     created(){
-        this.loadMyQuestion();
-        this.getMyInfo()
+        this.loadMyTabContents();
+        this.getMyInfo();
     }
 })
