@@ -41,6 +41,9 @@ let NoticeCountApp = new Vue({
                 // console.log("counts:",r.data)
 
             })
+        },
+        clickTabContent(){
+            myTabContentApp.loadTabContent()
         }
 
     },
@@ -64,7 +67,7 @@ let myTabContentApp = new Vue({
         }
     },
     created(){
-        this.loadTabContent()
+        // this.loadTabContent()
     }
 })
 
