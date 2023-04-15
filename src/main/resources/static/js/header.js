@@ -53,6 +53,30 @@ let NoticeCountApp = new Vue({
     }
 })
 
+let avatarApp = new Vue({
+    el:"#avatarApp",
+    data:{
+        // counts : 0,
+        user:{}
+    },
+    methods:{
+        loadAvatar(){
+            axios.get("/users/myInfo").then(function (r) {
+                // console.log(r.data)
+                avatarApp.user = r.data;
+            })
+        },
+        logout(){
+            axios.get("/logout").then(function (r){
+                console.log(r.data)
+            })
+        }
+    },
+    created(){
+        this.loadAvatar();
+    }
+})
+
 let myTabContentApp = new Vue({
     el:"#myTabContent",
     data:{
@@ -71,26 +95,3 @@ let myTabContentApp = new Vue({
     }
 })
 
-let avatarApp = new Vue({
-    el:"#avatarApp",
-    data:{
-        counts : 0,
-        user:{}
-    },
-    methods:{
-        loadAvatar(){
-            axios.get("/users/myInfo").then(function (r) {
-                // console.log(r.data)
-                avatarApp.user = r.data;
-            })
-        },
-        logout(){
-          axios.get("/logout").then(function (r){
-              console.log(r.data)
-          })
-        }
-    },
-    created(){
-        this.loadAvatar();
-    }
-})
