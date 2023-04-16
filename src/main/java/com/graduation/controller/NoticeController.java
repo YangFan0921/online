@@ -36,7 +36,7 @@ public class NoticeController {
     }
 
     @GetMapping("/tabContent")
-    public List<Question> tabContent(@AuthenticationPrincipal UserDetails user){
+    public List<NoticeQuestionVo> tabContent(@AuthenticationPrincipal UserDetails user){
         return  noticeService.tabContent(user.getUsername());
     }
 

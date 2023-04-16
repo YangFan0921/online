@@ -11,6 +11,7 @@ import com.graduation.model.User;
 import com.graduation.service.INoticeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.graduation.vo.NoticeQuestionVo;
+import com.graduation.vo.TaskVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,46 +39,60 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     @Override
     public Integer noticeCounts(String username) {
         User user = userMapper.findUserByUsername(username);
-        QueryWrapper<Notice> query = new QueryWrapper<>();
-        query.eq("read_status",0);
-        query.eq("reply_user_id",user.getId());
-        Integer count = noticeMapper.selectCount(query);
-        return count;
+        Integer unreadCount = noticeMapper.getUnreadCount(user.getId());
+        return unreadCount;
+
+//        QueryWrapper<Notice> query = new QueryWrapper<>();
+//        query.eq("read_status",0);
+//        query.eq("reply_user_id",user.getId());
+//        Integer count = noticeMapper.selectCount(query);
+//        return count;
     }
 
     @Override
-    public List<Question> tabContent(String username) {
+    public List<NoticeQuestionVo> tabContent(String username) {
         User user = userMapper.findUserByUsername(username);
+
 //        QueryWrapper<Notice> query = new QueryWrapper<>();
 //        query.eq("read_status",0);
 //        query.eq("reply_user_id",user.getId());
 //        List<Notice> noticeList =  noticeMapper.selectList(query);
-        List<Notice> top10Notice = noticeMapper.getTop10Notice(user.getId());
-        List<Question> questionList = new ArrayList<>();
-        for (Notice notice : top10Notice) {
-//            System.out.println(notice);
-            Question question = questionMapper.selectById(notice.getQuestionId());
-            questionList.add(question);
-        }
-        return questionList;
+
+        List<NoticeQuestionVo> top10Notice = noticeMapper.getTop10Notice(user.getId());
+        return top10Notice;
+//        List<Question> questionList = new ArrayList<>();
+//        for (Notice notice : top10Notice) {
+////            System.out.println(notice);
+//            Question question = questionMapper.selectById(notice.getQuestionId());
+//            questionList.add(question);
+//        }
+//        return questionList;
     }
 
     @Override
     public PageInfo<NoticeQuestionVo> getAllNotices(String username,Integer pageNum,Integer pageSize) {
         User user = userMapper.findUserByUsername(username);
-        QueryWrapper<Notice> query = new QueryWrapper<>();
-        query.eq("reply_user_id",user.getId());
-        List<Notice> noticeList = noticeMapper.selectList(query);
-        List<NoticeQuestionVo> voList =  new ArrayList<>();
-        for (Notice notice : noticeList){
-            NoticeQuestionVo vo = new NoticeQuestionVo()
-                    .setId(notice.getQuestionId())
-                    .setTitle(questionMapper.selectById(notice.getQuestionId()).getTitle())
-                    .setCreatetime(notice.getCreatetime())
-                    .setReadStatus(notice.getReadStatus())
-                    .setNickname(questionMapper.selectById(notice.getQuestionId()).getUserNickName());
-            voList.add(vo);
-        }
-        return  new PageInfo<>(voList);
+        List<NoticeQuestionVo> allNotice = noticeMapper.getAllNotice(user.getId());
+
+//        QueryWrapper<Notice> query = new QueryWrapper<>();
+//        query.eq("reply_user_id",user.getId());
+//        List<Notice> noticeList = noticeMapper.selectList(query);
+//        List<NoticeQuestionVo> voList =  new ArrayList<>();
+//        for (Notice notice : noticeList){
+//            NoticeQuestionVo vo = new NoticeQuestionVo()
+//                    .setId(notice.getQuestionId())
+//                    .setTitle(questionMapper.selectById(notice.getQuestionId()).getTitle())
+//                    .setCreatetime(notice.getCreatetime())
+//                    .setReadStatus(notice.getReadStatus())
+//                    .setNickname(questionMapper.selectById(notice.getQuestionId()).getUserNickName());
+//            voList.add(vo);
+//        }
+        return  new PageInfo<>(allNotice);
+    }
+
+    @Override
+    public PageInfo<TaskVo> getAllTasks(String username, Integer pageNum, Integer pageSize) {
+        User user = userMapper.findUserByUsername(username);
+        return null;
     }
 }

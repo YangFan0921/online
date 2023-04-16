@@ -87,6 +87,7 @@ let myTabContentApp = new Vue({
          axios.get("/notice/tabContent").then(function (r) {
              // console.log(r.data)
              myTabContentApp.tabContents = r.data
+             console.log(r.data)
          })
         }
     },
