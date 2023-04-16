@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login.html")
                 .loginProcessingUrl("/login")
                 .failureUrl("/login.html?error")
-                .defaultSuccessUrl("/index_student.html")   //登录成功默认显示的页面
+                .defaultSuccessUrl("/index.html")   //登录成功默认显示的页面
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -54,9 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()  //开启会话管理
                 .invalidSessionUrl("/login.html")
                 .maximumSessions(1)  //允许同一个用户只允许创建一个会话
-
                 .expiredUrl("/login.html")//会话过期处理
-
                 ;
 //                .maxSessionsPreventsLogin(true)   //禁止再次登录
         ;

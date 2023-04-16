@@ -20,13 +20,13 @@ public class HomeController {
     @GetMapping(value = {"","/","/index.html"})
     public String index(@AuthenticationPrincipal UserDetails user) {
         //判断学生身份
-        if (user.getAuthorities().contains(STUDENT)){
+        if (user.getAuthorities().contains(TEACHER)){
 //            response.sendRedirect("/index_student.html");
-            return "redirect:/index_student.html";
-            //判断教师身份
-        }else if (user.getAuthorities().contains(TEACHER)){
-//            response.sendRedirect("/index_teacher.html");
             return "redirect:/index_teacher.html";
+            //判断教师身份
+        }else if (user.getAuthorities().contains(STUDENT)){
+//            response.sendRedirect("/index_teacher.html");
+            return "redirect:/index_student.html";
         }
 //        response.sendRedirect("/login.html");
         return "redirect:/login.html";
