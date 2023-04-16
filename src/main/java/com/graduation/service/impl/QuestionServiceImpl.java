@@ -14,6 +14,7 @@ import com.graduation.service.IUserService;
 import com.graduation.vo.HotQuestionVo;
 import com.graduation.vo.QuestionVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,7 +71,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             question.setTags(tags);
         }
         log.debug("当前用户问题数量: {}",questionsList.size());
-        System.out.println("当前问题："+questionsList);
+//        System.out.println("当前问题："+questionsList);
         return new PageInfo<>(questionsList);
     }
 
@@ -179,16 +180,20 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         return count;
     }
 
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
     @Override
     public PageInfo<Question> getTeacherQuestions(String username, Integer pageNum, Integer pageSize) {
         User user = userMapper.findUserByUsername(username);
         //设置分页
         PageHelper.startPage(pageNum,pageSize);
-        List<Question> teacherQuestions = questionMapper.findTeacherQuestions(user.getId());
+        List<Question> teacherQuestions = questionMapper.findTeacherQuestions(user.getId(),user.getClassroomId());
         //对查询出的问题包含的标签进行赋值
         for (Question question : teacherQuestions){
             List<Tag> tags = tagName2Tags(question.getTagNames());
             question.setTags(tags);
+        }
+        if (user.getType() == 0){
+            throw new ServiceException();
         }
         return new PageInfo<>(teacherQuestions);
 

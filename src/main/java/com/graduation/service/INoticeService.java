@@ -26,7 +26,13 @@ public interface INoticeService extends IService<Notice> {
     //查询所有通知列表
     PageInfo<NoticeQuestionVo>  getAllNotices(String username, Integer pageNum, Integer pageSize);
 
-    //教师任务列表
-    PageInfo<TaskVo>  getAllTasks(String username, Integer pageNum, Integer pageSize);
+    //教师未回答任务列表
+    PageInfo<TaskVo>  getNoAnswerTasks(String username, Integer pageNum, Integer pageSize);
+
+    //教师未解决任务列表
+    PageInfo<TaskVo>  getUnSolveTasks(String username, Integer pageNum, Integer pageSize);
+
+    //教师未回答任务列表
+    PageInfo<TaskVo>  getSolvedTasks(String username, Integer pageNum, Integer pageSize);
 
 }

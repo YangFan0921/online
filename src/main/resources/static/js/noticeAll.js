@@ -20,7 +20,12 @@ let myTabContentsApp = new Vue({
                 // console.log("成功加载数据");
                 // console.log(response);
                 if (response.status == OK) {
-                    // console.log(response.data)
+                    if (response.data == "不允许访问"){
+                        // console.log("else OK",response.status)
+                        window.location.href="../error/error.html";
+                    }
+                    console.log("OK",response.data)
+                    console.log("status",response.status)
                     myTabContentsApp.tabContents = response.data.list;
                     myTabContentsApp.pageinfo = response.data;
                     //为question对象添加持续时间属性

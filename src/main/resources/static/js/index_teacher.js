@@ -29,6 +29,10 @@ let questionsApp = new Vue({
                 // console.log("成功加载数据");
                 // console.log(response);
                 if(response.status == OK){
+                    if (response.data == "不允许访问"){
+                        // console.log("else OK",response.status)
+                        window.location.href="../error/error.html";
+                    }
                     questionsApp.questions = response.data.list;
                     questionsApp.pageinfo = response.data;
                     //为question对象添加持续时间属性

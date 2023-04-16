@@ -46,9 +46,23 @@ public interface NoticeMapper extends BaseMapper<Notice> {
     @Select("select n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
             "left join question q on n.question_id=q.id " +
             "left join user u on n.user_id=u.id " +
-            "where n.reply_user_id=#{reply_user_id} " +
+            "where n.reply_user_id=#{reply_user_id} and status=0 " +
             "ORDER BY q.createtime desc ")
-    List<TaskVo> getMyTask(@Param("reply_user_id") Integer reply_user_id);
+    List<TaskVo> getNoAnswerTasks(@Param("reply_user_id") Integer reply_user_id);
+
+    @Select("select n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
+            "left join question q on n.question_id=q.id " +
+            "left join user u on n.user_id=u.id " +
+            "where n.reply_user_id=#{reply_user_id} and status=1 " +
+            "ORDER BY q.createtime desc ")
+    List<TaskVo> getUnSolveTasks(@Param(value = "reply_user_id") Integer reply_user_id);
+
+    @Select("select n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
+            "left join question q on n.question_id=q.id " +
+            "left join user u on n.user_id=u.id " +
+            "where n.reply_user_id=#{reply_user_id} and status=2 " +
+            "ORDER BY q.createtime desc ")
+    List<TaskVo> getSolvedTasks(@Param(value = "reply_user_id") Integer reply_user_id);
 
 
 }
