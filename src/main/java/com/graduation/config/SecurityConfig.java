@@ -52,8 +52,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login.html?logout")
                 .and()
                 .sessionManagement()  //开启会话管理
+                .invalidSessionUrl("/login.html")
                 .maximumSessions(1)  //允许同一个用户只允许创建一个会话
-                .expiredUrl("/login.html");//会话过期处理
+
+                .expiredUrl("/login.html")//会话过期处理
+
+                ;
 //                .maxSessionsPreventsLogin(true)   //禁止再次登录
         ;
     }

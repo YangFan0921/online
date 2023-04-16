@@ -36,7 +36,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
 //            "    q.user_id=#{userId} OR uq.user_id=#{userId}" +
 //            " ORDER BY q.createtime DESC ")
 //    或者 同班级的问题
-    @Select("SELECT q.* FROM question q " +
+    @Select("SELECT distinct q.* FROM question q " +
             "LEFT JOIN user_question uq ON q.id=uq.question_id " +
             "LEFT JOIN user u on q.user_nick_name=u.nickname " +
             "WHERE q.user_id=#{userId}  OR uq.user_id=#{userId}  OR classroom_id=#{classroomId} ORDER BY q.createtime DESC")
