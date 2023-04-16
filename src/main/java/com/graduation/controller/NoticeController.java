@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.graduation.model.Question;
 import com.graduation.service.INoticeService;
 import com.graduation.vo.NoticeQuestionVo;
+import com.graduation.vo.TaskVo;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +48,16 @@ public class NoticeController {
         }
         Integer pageSize=8;
         PageInfo<NoticeQuestionVo> pageInfo = noticeService.getAllNotices(user.getUsername(), pageNum, pageSize);
+        return pageInfo;
+    }
+
+    @GetMapping("/task")
+    public PageInfo<TaskVo> task(@AuthenticationPrincipal UserDetails user,Integer pageNum) {
+        if (pageNum==null){
+            pageNum=1;
+        }
+        Integer pageSize=8;
+        PageInfo<TaskVo> pageInfo = noticeService.getAllTasks(user.getUsername(), pageNum, pageSize);
         return pageInfo;
     }
 

@@ -203,7 +203,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         query.eq("question_id",id);
         Notice notice = noticeMapper.selectOne(query);
         if (notice != null){
-            noticeMapper.updateNoticeReadStatus(user.getId());
+            noticeMapper.updateNoticeReadStatus(user.getId(),id);
         }
         //给问题的标签赋值
         List<Tag> tags = tagName2Tags(question.getTagNames());

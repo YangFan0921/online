@@ -218,7 +218,7 @@
 
         <div class="tab-content col-12">
             <div class="tab-pane fade show active row" id="noAnswer" role="tabpanel" aria-labelledby="noAnswer-tab">
-                <div class="col-12" id="app1" v-cloak>
+                <div class="col-12" v-cloak>
                     <div class="row mb-3">
                         <!--            <div class="col-12">-->
                         <!--              <button type="button" class="btn btn-default btn-sm mx-1 text-xs"><label-->
@@ -246,21 +246,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="question in questions">
+                                <tr v-for="(question,index) in questions">
                                     <!--                  <td scope="row"><input type="checkbox"></td>-->
-                                    <td>1</td>
+                                    <td v-text="index+1">1</td>
                                     <td>
-                                        <a href="../question/detail.html" target=_blank>Java如何安装?</a>
+                                        <a href="../question/detail.html" target=_blank v-text="question.title" v-bind:href="'/question/detail_teacher.html?'+question.questionId">Java如何安装?</a>
                                     </td>
                                     <td>
-                                        <span class="label label-default" style="margin-right: 2px">Java基础</span>
+                                        <span class="label label-default" style="margin-right: 2px" v-text="question.tagNames">Java基础</span>
                                     </td>
-                                    <td>天王盖地虎</td>
-                                    <td>2020-04-30 12:19:22</td>
-                                    <td>
+                                    <td v-text="question.nickname">天王盖地虎</td>
+                                    <td v-text="question.createdate">2020-04-30 12:19:22</td>
+                                    <td v-show="question.status==0">
                                         <span class="badge badge-warning">未回答</span>
                                     </td>
-                                    <td>10浏览</td>
+                                    <td><span v-text="question.pageView">10</span>浏览</td>
 
                                 </tr>
                                 </tbody>
@@ -271,14 +271,20 @@
                     <div class="row">
                         <!--显示分页信息-->
                         <div class="row mt-5">
-                            <div class="col-6 offset-4">
+                            <div class="col-12 offset-4">
                                 <nav aria-label="Page navigation example">
                                     <div class="pagination">
-                                        <a class="page-item page-link" href="#">Previous</a>
-                                        <a class="page-item page-link" href="#">1</a>
-                                        <a class="page-item page-link" href="#">2</a>
-                                        <a class="page-item page-link" href="#">3</a>
-                                        <a class="page-item page-link" href="#">Next</a>
+                                        <a class="page-item page-link" href="#"
+                                           v-on:click.prevent="loadNoAnswerQuestions(pageinfo.prePage)"
+                                           :style="pageinfo.isFirstPage ? 'pointer-events: none;background:#DEDEDE;color:	#FCFCFC':''">上一页</a>
+                                        <a class="page-item page-link " href="#"
+                                           v-for="n in pageinfo.navigatepageNums"
+                                           v-on:click.prevent="loadNoAnswerQuestions(n)"
+                                           v-bind:class="{'bg-secondary text-light':n==pageinfo.pageNum}"><span v-text="n">1</span></a>
+                                        <a class="page-item page-link" href="#"
+                                           v-on:click.prevent="loadNoAnswerQuestions(pageinfo.nextPage)"
+                                           :style="pageinfo.isLastPage ?
+                      'pointer-events: none;background:#DEDEDE;color:	#FCFCFC':''">下一页</a>
                                     </div>
                                 </nav>
                             </div>

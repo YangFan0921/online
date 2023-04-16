@@ -15,6 +15,8 @@ import com.graduation.vo.TaskVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,58 +43,31 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         User user = userMapper.findUserByUsername(username);
         Integer unreadCount = noticeMapper.getUnreadCount(user.getId());
         return unreadCount;
-
-//        QueryWrapper<Notice> query = new QueryWrapper<>();
-//        query.eq("read_status",0);
-//        query.eq("reply_user_id",user.getId());
-//        Integer count = noticeMapper.selectCount(query);
-//        return count;
     }
 
     @Override
     public List<NoticeQuestionVo> tabContent(String username) {
         User user = userMapper.findUserByUsername(username);
-
-//        QueryWrapper<Notice> query = new QueryWrapper<>();
-//        query.eq("read_status",0);
-//        query.eq("reply_user_id",user.getId());
-//        List<Notice> noticeList =  noticeMapper.selectList(query);
-
         List<NoticeQuestionVo> top10Notice = noticeMapper.getTop10Notice(user.getId());
         return top10Notice;
-//        List<Question> questionList = new ArrayList<>();
-//        for (Notice notice : top10Notice) {
-////            System.out.println(notice);
-//            Question question = questionMapper.selectById(notice.getQuestionId());
-//            questionList.add(question);
-//        }
-//        return questionList;
     }
 
     @Override
     public PageInfo<NoticeQuestionVo> getAllNotices(String username,Integer pageNum,Integer pageSize) {
         User user = userMapper.findUserByUsername(username);
         List<NoticeQuestionVo> allNotice = noticeMapper.getAllNotice(user.getId());
-
-//        QueryWrapper<Notice> query = new QueryWrapper<>();
-//        query.eq("reply_user_id",user.getId());
-//        List<Notice> noticeList = noticeMapper.selectList(query);
-//        List<NoticeQuestionVo> voList =  new ArrayList<>();
-//        for (Notice notice : noticeList){
-//            NoticeQuestionVo vo = new NoticeQuestionVo()
-//                    .setId(notice.getQuestionId())
-//                    .setTitle(questionMapper.selectById(notice.getQuestionId()).getTitle())
-//                    .setCreatetime(notice.getCreatetime())
-//                    .setReadStatus(notice.getReadStatus())
-//                    .setNickname(questionMapper.selectById(notice.getQuestionId()).getUserNickName());
-//            voList.add(vo);
-//        }
-        return  new PageInfo<>(allNotice);
+        return new PageInfo<>(allNotice);
     }
 
     @Override
     public PageInfo<TaskVo> getAllTasks(String username, Integer pageNum, Integer pageSize) {
         User user = userMapper.findUserByUsername(username);
-        return null;
+        List<TaskVo> taskVos = noticeMapper.getMyTask(user.getId());
+        for (TaskVo vo : taskVos){
+            LocalDateTime createtime = vo.getCreatetime();
+            String date= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(createtime);
+            vo.setCreatedate(date);
+        }
+        return new PageInfo<>(taskVos);
     }
 }
