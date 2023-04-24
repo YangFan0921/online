@@ -3,12 +3,8 @@ package com.graduation.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.graduation.controller.SystemController;
 import com.graduation.exception.ServiceException;
-import com.graduation.mapper.ClassroomMapper;
-import com.graduation.mapper.UserMapper;
-import com.graduation.mapper.UserRoleMapper;
-import com.graduation.model.Classroom;
-import com.graduation.model.User;
-import com.graduation.model.UserRole;
+import com.graduation.mapper.*;
+import com.graduation.model.*;
 import com.graduation.service.IQuestionService;
 import com.graduation.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -53,7 +49,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     ClassroomMapper classroomMapper;
     @Resource
     UserRoleMapper userRoleMapper;
-
+    @Resource
+    QuestionMapper questionMapper;
+    @Resource
+    AnswerMapper answerMapper;
+    @Resource
+    CommentMapper commentMapper;
     @Resource
     IQuestionService questionService;
 
@@ -212,6 +213,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public String updateMyInfo(String username,UserInfoVo userInfoVo) {
         User user = userMapper.findUserByUsername(username);
+        int num;
         LocalDate birthday = LocalDate.parse(userInfoVo.getBirthday());
         String avatarUrl = url;
         user.setAvatarUrl(avatarUrl)
@@ -219,8 +221,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .setBirthday(birthday)
                 .setSelfIntroduction(userInfoVo.getSelfIntroduction())
                 .setSex(userInfoVo.getSex());
+        num = userMapper.updateById(user);
 
-        int num = userMapper.updateById(user);
+        QueryWrapper<Question> questionQueryWrapper =  new QueryWrapper<>();
+        questionQueryWrapper.eq("user_id",user.getId());
+        List<Question> question = questionMapper.selectList(questionQueryWrapper);
+        if (question!=null){
+            for (Question q:question){
+                q.setUserNickName(userInfoVo.getNickname());
+                num = questionMapper.updateById(q);
+            }
+        }
+
+        QueryWrapper<Answer> answerQueryWrapper =  new QueryWrapper<>();
+        answerQueryWrapper.eq("user_id",user.getId());
+        List<Answer> answer = answerMapper.selectList(answerQueryWrapper);
+        if (answer!=null){
+            for (Answer a:answer){
+                a.setUserNickName(userInfoVo.getNickname());
+                num = answerMapper.updateById(a);
+            }
+        }
+
+        QueryWrapper<Comment> commentQueryWrapper =  new QueryWrapper<>();
+        commentQueryWrapper.eq("user_id",user.getId());
+        List<Comment> comment = commentMapper.selectList(commentQueryWrapper);
+        if (comment!=null){
+            for (Comment c:comment){
+                c.setUserNickName(userInfoVo.getNickname());
+                num = commentMapper.updateById(c);
+            }
+
+        }
+
         if (num!=1){
             throw new ServiceException("服务器忙,请稍后再试");
         }

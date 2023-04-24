@@ -38,29 +38,29 @@ public interface NoticeMapper extends BaseMapper<Notice> {
             "order by q.createtime desc limit 0,10")
     List<NoticeQuestionVo> getTop10Notice(@Param("reply_user_id") Integer reply_user_id);
 
-    @Select("SELECT q.id,q.title,q.createtime,q.user_nick_name nickname,n.read_status from question q " +
+    @Select("SELECT DISTINCT q.id,q.title,q.createtime,q.user_nick_name nickname,n.read_status from question q " +
             "LEFT JOIN notice n on q.id=n.question_id " +
             "where n.reply_user_id=#{reply_user_id}  and q.delete_status=0")
     List<NoticeQuestionVo> getAllNotice(@Param("reply_user_id") Integer reply_user_id);
 
-    @Select("select n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
+    @Select("select DISTINCT n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
             "left join question q on n.question_id=q.id " +
             "left join user u on n.user_id=u.id " +
-            "where n.reply_user_id=#{reply_user_id} and status=0 " +
+            "where n.reply_user_id=#{reply_user_id} and status=0 and q.delete_status=0 " +
             "ORDER BY q.createtime desc ")
     List<TaskVo> getNoAnswerTasks(@Param("reply_user_id") Integer reply_user_id);
 
-    @Select("select n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
+    @Select("select DISTINCT n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
             "left join question q on n.question_id=q.id " +
             "left join user u on n.user_id=u.id " +
-            "where n.reply_user_id=#{reply_user_id} and status=1 " +
+            "where n.reply_user_id=#{reply_user_id} and status=1 and q.delete_status=0 " +
             "ORDER BY q.createtime desc ")
     List<TaskVo> getUnSolveTasks(@Param(value = "reply_user_id") Integer reply_user_id);
 
-    @Select("select n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
+    @Select("select DISTINCT n.question_id,u.nickname,q.createtime,q.title,q.status,q.page_views pageView,q.tag_names tagNames from notice n " +
             "left join question q on n.question_id=q.id " +
             "left join user u on n.user_id=u.id " +
-            "where n.reply_user_id=#{reply_user_id} and status=2 " +
+            "where n.reply_user_id=#{reply_user_id} and status=2 and q.delete_status=0 " +
             "ORDER BY q.createtime desc ")
     List<TaskVo> getSolvedTasks(@Param(value = "reply_user_id") Integer reply_user_id);
 

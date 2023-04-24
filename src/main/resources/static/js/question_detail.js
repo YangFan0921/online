@@ -14,7 +14,7 @@ let questionApp = new Vue({
             // "?153"  -->  "153"
             qid = qid.substring(1)
             axios.get("/questions/"+qid).then(function (r) {
-                // console.log(r.data)
+                console.log(r.data)
                 questionApp.question = r.data;
                 addDuration(questionApp.question)
             }).catch(function (e){
