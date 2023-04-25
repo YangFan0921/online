@@ -2,6 +2,7 @@ let questionApp = new Vue({
     el:"#questionApp",
     data:{
         question:{},
+        user:{}
     },
     methods:{
         loadQuestions(){
@@ -14,13 +15,38 @@ let questionApp = new Vue({
             // "?153"  -->  "153"
             qid = qid.substring(1)
             axios.get("/questions/"+qid).then(function (r) {
-                console.log(r.data)
+                // console.log("question",r.data)
                 questionApp.question = r.data;
                 addDuration(questionApp.question)
             }).catch(function (e){
                 console.log(e)
             })
+            axios.get("/users/myInfo").then(function (r) {
+                // console.log("user",r.data)
+                questionApp.user = r.data;
+            })
+
         },
+        deleteQuestion(){
+            let qid = location.search;
+            if (!qid){
+                alert("必须选择一个问题")
+                return
+            }
+            qid = qid.substring(1)
+            let res = confirm('确定删除？');
+            if(res == true) {
+                axios.get("/questions/delete/"+qid).then(function (r) {
+                    // console.log(r.data)
+                    questionApp.question = r.data;
+                    alert("删除成功")
+                    window.location.href = "../index.html"
+                }).catch(function (e){
+                    console.log(e)
+                })
+            }
+
+        }
     },
     created(){
         this.loadQuestions();

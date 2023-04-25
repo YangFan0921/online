@@ -242,6 +242,18 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         return hotQuestionVo;
     }
 
+    @Override
+    public int deleteQuestionById(String username, Integer id) {
+        User user = userMapper.findUserByUsername(username);
+        Question question = questionMapper.selectById(id);
+        if (user.getId() == question.getUserId()){
+            int num = questionMapper.deleteQuestionById(id);
+            return num;
+        }else {
+            throw new ServiceException("您无法删除此问题！");
+        }
+    }
+
 
     //根据tag_names的值获得一个对应的List<Tag>集合
     public List<Tag> tagName2Tags(String tagNames){

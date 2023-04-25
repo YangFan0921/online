@@ -96,6 +96,12 @@ public class QuestionController {
         return questionService.getHotQuestion(user.getUsername());
     }
 
+    @GetMapping("/delete/{id}")
+    public Integer delete(@AuthenticationPrincipal UserDetails user,@PathVariable Integer id){
+        int num = questionService.deleteQuestionById(user.getUsername(), id);
+        return num;
+    }
+
 
 
 }

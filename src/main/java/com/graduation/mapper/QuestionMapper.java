@@ -23,7 +23,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
     @Select("select q.* " +
             "from user u " +
             "right JOIN question q on q.user_nick_name=u.nickname " +
-            "where classroom_id=#{classroomId} " +
+            "where classroom_id=#{classroomId} and q.delete_status=0 " +
             "ORDER BY q.createtime DESC ")
     List<Question> getClassroomQuestions(Integer classroomId);
 
@@ -39,7 +39,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
     @Select("SELECT distinct q.* FROM question q " +
             "LEFT JOIN user_question uq ON q.id=uq.question_id " +
             "LEFT JOIN user u on q.user_nick_name=u.nickname " +
-            "WHERE q.user_id=#{userId}  OR uq.user_id=#{userId}  OR classroom_id=#{classroomId} ORDER BY q.createtime DESC")
+            "WHERE q.delete_status=0 and (q.user_id=#{userId}  OR uq.user_id=#{userId}  OR classroom_id=#{classroomId}) ORDER BY q.createtime DESC")
     List<Question> findTeacherQuestions(@Param("userId") Integer userId,@Param("classroomId") Integer classroomId);
 
     @Update("update question set status=#{status} where id=#{questionId}")
@@ -52,4 +52,6 @@ public interface QuestionMapper extends BaseMapper<Question> {
     Integer countAnswer(Integer questId);
 
 
+    @Update("update question set delete_status=1 where  id=#{questionId}")
+    Integer deleteQuestionById(@Param("questionId") Integer questionId);
 }
