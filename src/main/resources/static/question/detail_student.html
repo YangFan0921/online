@@ -208,7 +208,7 @@
               </div>
               <div class="row mt-4 mx-0 px-0">
                 <a class="btn btn-outline-info btn-md rounded-lg fa fa-pencil " style="font-size: x-small"
-                   href="#writeAnswer">回答</a>
+                   href="#postAnswerApp">回答</a>
               </div>
               <div class="row mt-4 mx-0 px-0" id="collectApp">
                 <a class="btn btn-outline-secondary btn-md rounded-lg fa fa-star "
@@ -316,14 +316,14 @@
                             </span>
                             <span class="font-weight-light text-info"
                                   style="font-size: small"></span>
-                            <a class="text-primary ml-2"
+                            <a class="text-primary ml-2" v-show="user.id === comment.userId"
                                style="font-size: small" data-toggle="collapse" href="#editCommemt1"
                                role="button" aria-expanded="false" aria-controls="collapseExample"
                                v-bind:href="'#editComment'+comment.id">
                               <i class="fa fa-edit"></i>编辑
                             </a>
                             <!--老师角色或者属于本用户的评论可以删除该评论-->
-                            <a class="ml-2  fa fa-close " style="font-size: small"
+                            <a class="ml-2  fa fa-close text-danger" style="font-size: small"  v-show="user.id === comment.userId"
                                data-toggle="collapse"  role="button"
                                aria-expanded="false" aria-controls="collapseExample"
                                onclick="$(this).next().toggle(300)">

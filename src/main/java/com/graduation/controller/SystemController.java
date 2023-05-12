@@ -5,13 +5,20 @@ import com.graduation.service.IUserService;
 import com.graduation.vo.RegisterVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -38,6 +45,19 @@ public class SystemController {
             return e.getMessage();
         }
     }
+
+    @RequestMapping("/fail")
+    public String loginFail(HttpServletRequest request , HttpServletResponse response){
+        //获取security的异常错误信息
+        AuthenticationException exception = (AuthenticationException)request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+        String msg = exception.getMessage();
+        System.out.println("msg======>"+msg);
+        if (msg.equals("Bad credentials")){
+            msg = "用户名或密码错误";
+        }
+        return msg;
+    }
+
 
     //文件上传
     @Value("${file.upload.path}")

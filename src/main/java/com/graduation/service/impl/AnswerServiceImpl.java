@@ -65,7 +65,7 @@ public class AnswerServiceImpl extends ServiceImpl<AnswerMapper, Answer> impleme
     }
 
     @Override
-    public List<Answer> getAnswersByQuestionId(Integer questionId) {
+    public List<Answer> getAnswersByQuestionId(Long questionId) {
 //        QueryWrapper<Answer> query = new QueryWrapper<>();
 //        query.eq("quest_id",questionId);
 //        List<Answer> answers = answerMapper.selectList(query);
@@ -81,7 +81,7 @@ public class AnswerServiceImpl extends ServiceImpl<AnswerMapper, Answer> impleme
 
     @Transactional
     @Override
-    public int accept(Integer answerId, String username) {
+    public int accept(Long answerId, String username) {
         User user = userMapper.findUserByUsername(username);
         Answer answer = answerMapper.selectById(answerId);
         Question question = questionMapper.selectById(answer.getQuestId());

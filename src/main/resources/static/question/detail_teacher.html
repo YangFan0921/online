@@ -320,7 +320,7 @@
                               <i class="fa fa-edit"></i>编辑
                             </a>
                             <!--老师角色或者属于本用户的评论可以删除该评论-->
-                            <a class="ml-2  fa fa-close " style="font-size: small"
+                            <a class="ml-2  fa fa-close text-danger" style="font-size: small"
                                data-toggle="collapse"  role="button"
                                aria-expanded="false" aria-controls="collapseExample"
                                onclick="$(this).next().toggle(300)">
@@ -340,7 +340,7 @@
                                 <div class="form-group">
                                   <textarea class="form-control"
                                             id="textareaComment1" name="content" rows="4"
-                                            required v-text="comment.content"></textarea>
+                                            required v-text="comment.content" ></textarea>
                                   <div class="invalid-feedback" :class="{'d-block':editError}" style="display: none" v-text="editMessage">
                                     内容不能为空！
                                   </div>

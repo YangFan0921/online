@@ -28,7 +28,7 @@ let createQuestionApp = new Vue({
             }).then(function(r){
                 console.log(r.data);
                 if(r.data=="问题发布成功"){
-                    location.href="/index_student.html";
+                    location.href="/index.html";
                 }else {
                     createQuestionApp.hasError = true;
                     createQuestionApp.message = r.data;

@@ -31,6 +31,7 @@ let NoticeCountApp = new Vue({
                 // console.log(r.data)
                 NoticeCountApp.user = r.data;
                 NoticeCountApp.type = NoticeCountApp.user.type
+                // NoticeCountApp.user.avatarUrl = "http://localhost:8899/"+NoticeCountApp.user.avatarUrl
                 // console.log("user.type",NoticeCountApp.user.type)
                 // console.log("type",NoticeCountApp.type)
             })
@@ -64,6 +65,7 @@ let avatarApp = new Vue({
             axios.get("/users/myInfo").then(function (r) {
                 // console.log(r.data)
                 avatarApp.user = r.data;
+                // avatarApp.user.avatarUrl = "http://localhost:8899/"+avatarApp.user.avatarUrl
             })
         },
         logout(){

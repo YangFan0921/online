@@ -11,8 +11,9 @@ let userInfoApp = new Vue({
     methods:{
         loadUserInfo(){
             axios.get("/users/myInfo").then(function (r) {
-                // console.log(r.data)
+                console.log(r.data)
                 userInfoApp.user = r.data;
+                // userInfoApp.user.avatarUrl = "http://localhost:8899/"+userInfoApp.user.avatarUrl
             })
         },
         updateMyInfo(){
@@ -38,6 +39,7 @@ let userInfoApp = new Vue({
         },
         handleAvatarSuccess(res){
             userInfoApp.user.avatarUrl = res
+            // userInfoApp.user.avatarUrl = "http://localhost:8899/"+res
         }
     },
     created(){

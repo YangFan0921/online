@@ -99,6 +99,7 @@ let postAnswerApp = new Vue({
 let answersApp = new Vue({
     el:"#answersApp",
     data:{
+        user:{},
         answers:[],
         editMessage:'',
         postCommentMessage:'',
@@ -106,6 +107,13 @@ let answersApp = new Vue({
         postCommentError:false,
     },
     methods:{
+        loadUserInfo(){
+            axios.get("/users/myInfo").then(function (r) {
+                // console.log(r.data)
+                answersApp.user = r.data;
+                // userInfoApp.user.avatarUrl = "http://localhost:8899/"+userInfoApp.user.avatarUrl
+            })
+        },
         loadAnswers(){
             let qid=location.search;
             if(!qid){
@@ -114,7 +122,7 @@ let answersApp = new Vue({
             }
             qid=qid.substring(1);
             axios.get("/answers/question/"+qid).then(function (r) {
-                // console.log(r.data)
+                // console.log("loadAnswers===>",r.data)
                 answersApp.answers = r.data;
                 let answers = answersApp.answers;
                 for(let i=0;i<answers.length;i++){
@@ -166,7 +174,7 @@ let answersApp = new Vue({
                 return;
             }
             axios.delete("/comments/"+commentId+"/delete").then(function (r) {
-                console.log(r.data)
+                // console.log(r.data)
                 if(r.data!="删除成功"){
                     alert(r.data);
                 }else {
@@ -190,8 +198,8 @@ let answersApp = new Vue({
             let form=new FormData();
             form.append("answerId",answerId);
             form.append("content",content);
-            axios.get("/comments/"+commentId+"/update").then(function (r) {
-                console.log(r.data)
+            axios.post("/comments/"+commentId+"/update",form).then(function (r) {
+                // console.log(r)
                 Vue.set(comments,index,r.data);
                 $("#editComment"+commentId).collapse("hide");
             }).catch(function (e) {
@@ -216,5 +224,6 @@ let answersApp = new Vue({
 
     created(){
         this.loadAnswers();
+        this.loadUserInfo();
     }
 })

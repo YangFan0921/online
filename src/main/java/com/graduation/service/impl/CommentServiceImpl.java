@@ -49,7 +49,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public boolean removeCommentById(Integer id, String username) {
+    public boolean removeCommentById(Long id, String username) {
         User user=userMapper.findUserByUsername(username);
         //判断是不是讲师
         if(user.getType()==1){
@@ -69,10 +69,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Transactional
     @Override
-    public Comment updateComment(Integer commentId, CommentVo commentVo, String username) {
+    public Comment updateComment(Long commentId, CommentVo commentVo, String username) {
         User user=userMapper.findUserByUsername(username);
         Comment comment = commentMapper.selectById(commentId);
-        if (user.getType()==1 || user.getId()==comment.getUserId()){
+        if (user.getType()==1 || user.getId() == comment.getUserId()){
             int num = commentMapper.updateCommentContentById(commentVo.getContent(), commentId);
             comment.setContent(commentVo.getContent());
             if(num!=1){

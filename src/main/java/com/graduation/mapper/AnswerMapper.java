@@ -21,10 +21,10 @@ public interface AnswerMapper extends BaseMapper<Answer> {
 
     // 按问题id查询包含所有评论的回答list
     // 方法名和xml文件对应
-    List<Answer> findAnswersWithCommentsByQuestionId(Integer id);
+    List<Answer> findAnswersWithCommentsByQuestionId(Long id);
 
     //修改指定id的回答的采纳状态
     @Update("update answer set accept_status=#{acceptStatus} where id=#{answerId}")
-    Integer updateAcceptStatus(@Param("acceptStatus")Integer acceptStatus, @Param("answerId") Integer answerId);
+    Integer updateAcceptStatus(@Param("acceptStatus")Integer acceptStatus, @Param("answerId") Long answerId);
 
 }

@@ -19,6 +19,6 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
     //根据评论id修改评论内容
     @Update("update comment set content=#{content} where id=#{id}")
-    Integer updateCommentContentById(@Param("content") String content, @Param("id") Integer id);
+    Integer updateCommentContentById(@Param("content") String content, @Param("id") Long id);
 
 }

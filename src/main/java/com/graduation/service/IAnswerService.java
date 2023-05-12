@@ -21,11 +21,11 @@ public interface IAnswerService extends IService<Answer> {
     Answer saveAnswer(AnswerVo answerVo, String username);
 
     // 按问题id查询回答
-    List<Answer> getAnswersByQuestionId(Integer questionId);
+    List<Answer> getAnswersByQuestionId(Long questionId);
 
     // 采纳答案
     // 如果想做的严谨一些,可以传入当前登录用户的username
     // 来判断是不是问题的提问者在采纳答案
-    int accept(Integer answerId,String username);
+    int accept(Long answerId,String username);
 
 }

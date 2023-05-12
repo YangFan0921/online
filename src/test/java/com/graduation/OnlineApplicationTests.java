@@ -80,7 +80,7 @@ class OnlineApplicationTests {
 	@Test
 	void run(){
 		List<Answer> answers=answerMapper
-				.findAnswersWithCommentsByQuestionId(151);
+				.findAnswersWithCommentsByQuestionId(151L);
 		for(Answer a: answers){
 			System.out.println(a);
 		}

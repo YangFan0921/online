@@ -45,7 +45,7 @@ public class AnswerController {
     }
 
     @GetMapping("/question/{id}")
-    public List<Answer> getQuestionAnswer(@PathVariable Integer id){
+    public List<Answer> getQuestionAnswer(@PathVariable Long id){
         if(id==null){
             throw new ServiceException("问题id不能为空");
         }
@@ -55,7 +55,7 @@ public class AnswerController {
 
 
     @GetMapping("/{answerId}/solved")
-    public String solved(@PathVariable Integer answerId,@AuthenticationPrincipal UserDetails user){
+    public String solved(@PathVariable Long answerId,@AuthenticationPrincipal UserDetails user){
         Integer isAccept=answerService.accept(answerId, user.getUsername());
         if(isAccept == 2){
             return "你不是此问题的用户";

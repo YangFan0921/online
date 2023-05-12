@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/css/*",
                         "/img/**",
                         "/bower_components/**",
+                        "/fail",
                         "/login.html",
                         "/register.html",
                         "/resetpassword.html",
@@ -44,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login.html")
                 .loginProcessingUrl("/login")
-                .failureUrl("/login.html?error")
+//                .failureUrl("/login.html?error")
+                .failureUrl("/login.html?fail")
                 .defaultSuccessUrl("/index.html")   //登录成功默认显示的页面
                 .and()
                 .logout()

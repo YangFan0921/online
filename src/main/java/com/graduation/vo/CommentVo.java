@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class CommentVo implements Serializable {
 
     @NotNull(message = "回答id不能为空")
-    private Integer answerId;
+    private Long answerId;
     @NotBlank(message = "评论内容不能为空")
     private String content;
 

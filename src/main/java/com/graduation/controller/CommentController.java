@@ -43,7 +43,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}/delete")
-    public String remove(@PathVariable Integer id,@AuthenticationPrincipal UserDetails user){
+    public String remove(@PathVariable Long id,@AuthenticationPrincipal UserDetails user){
         boolean isDelete=commentService
                 .removeCommentById(id,user.getUsername());
         if(isDelete){
@@ -53,8 +53,8 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/{id}/update")
-    public Comment updateComment(@PathVariable Integer id,@Validated CommentVo commentVo,@AuthenticationPrincipal UserDetails user,BindingResult result){
+    @PostMapping("/{id}/update")
+    public Comment updateComment(@PathVariable Long id,@Validated CommentVo commentVo,@AuthenticationPrincipal UserDetails user,BindingResult result){
         log.debug("修改内容:{}",commentVo);
         if(result.hasErrors()){
             String msg=result.getFieldError().getDefaultMessage();

@@ -30,7 +30,7 @@ public class Comment implements Serializable {
      * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 用户id
@@ -48,7 +48,7 @@ public class Comment implements Serializable {
      * 回答id
      */
     @TableField("answer_id")
-    private Integer answerId;
+    private Long answerId;
 
     /**
      * 评论内容

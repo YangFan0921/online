@@ -10,16 +10,22 @@
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="css/login.css" >
+
+  <script src="bower_components/axios/axios.js"></script>
+  <script src="bower_components/vue/dist/vue.js"></script>
 </head>
 <body class="bg-light">
 <div class="container-fluid">
   <div class="row">
     <div class="mx-auto mt-5" style="width: 400px;">
       <h2 class="text-center "><b>好享</b></h2>
-      <div class="bg-white p-4">
+      <div class="bg-white p-4" id="loginMsgApp">
         <p class="text-center">用户登录</p>
         <div id="error" class="alert alert-danger d-none">
           <i class="fa fa-exclamation-triangle"></i> 账号或密码错误
+        </div>
+        <div id="fail" class="alert alert-danger " v-show="msgStatus">
+          <i class="fa fa-exclamation-triangle"></i> <span id="spanMsg" ></span>
         </div>
         <div id="logout" class="alert alert-info d-none">
           <i class="fa fa-exclamation-triangle"></i> 已经登出系统
@@ -57,5 +63,7 @@
     $("#register").removeClass("d-none");
   }
 </script>
+
+<script src="/js/login.js"></script>
 </body>
 </html>

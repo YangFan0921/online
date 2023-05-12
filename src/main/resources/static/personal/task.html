@@ -270,7 +270,7 @@
                     </div>
                     <div class="row">
                         <!--显示分页信息-->
-                        <div class="row mt-5">
+                        <div class="row mt-5" v-if="noAnswerQuestions.length>0">
                             <div class="col-12 offset-4">
                                 <nav aria-label="Page navigation example">
                                     <div class="pagination">
@@ -345,7 +345,7 @@
                     </div>
                     <div class="row">
                         <!--显示分页信息-->
-                        <div class="row mt-5">
+                        <div class="row mt-5" v-if="unSolveQuestions.length>0">
                             <div class="col-12 offset-4">
                                 <nav aria-label="Page navigation example">
                                     <div class="pagination">
@@ -426,7 +426,7 @@
                     </div>
                     <div class="row">
                         <!--显示分页信息-->
-                        <div class="row mt-5">
+                        <div class="row mt-5" v-if="solvedQuestions.length>0">
                             <div class="col-12 offset-4">
                                 <nav aria-label="Page navigation example">
                                     <div class="pagination">

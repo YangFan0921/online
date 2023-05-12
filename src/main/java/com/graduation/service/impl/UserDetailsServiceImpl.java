@@ -1,9 +1,11 @@
 package com.graduation.service.impl;
 
+import com.graduation.exception.ServiceException;
 import com.graduation.mapper.UserMapper;
 import com.graduation.model.Permission;
 import com.graduation.model.Role;
 import com.graduation.model.User;
+import com.graduation.utils.Constants;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,7 +26,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //根据用户名查询用户信息
         User user = userMapper.findUserByUsername(username);
         if (user == null){
-            return null;
+//            return null;
+            throw new ServiceException("用户名不存在");
         }
         //根据用户id查询用户权限
         List<Permission> permissions = userMapper.findUserPermissionsById(user.getId());
